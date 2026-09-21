@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import { ArrowRight, BadgeCheck, Bell, Building2, Check, ChevronRight, Heart, List, Map, MessageCircle, Search, SlidersHorizontal, Sparkles, Trash2, UserRound } from "lucide-react";
+import { ArrowRight, BadgeCheck, Bell, Building2, Check, ChevronRight, Heart, Home, List, Map, MessageCircle, Search, SlidersHorizontal, Sparkles, Trash2, UserRound } from "lucide-react";
 import { Toaster, toast } from "sonner";
 import { AppShell } from "@/components/app-shell";
 import { SearchHero } from "@/components/search-hero";
@@ -10,6 +10,7 @@ import { PropertyCard } from "@/components/property-card";
 import { PropertyDetail } from "@/components/property-detail";
 import { ApproximateMap } from "@/components/approximate-map";
 import { AdminDashboard, MoversDashboard, ProviderDashboard } from "@/components/portal-dashboards";
+import { RentalDashboard } from "@/components/rental-dashboard";
 import { AuthPanel } from "@/components/auth-panel";
 import { demoListings, popularLocations } from "@/lib/demo-data";
 import type { AppSection, Listing, ResultMode } from "@/types/marketplace";
@@ -68,10 +69,11 @@ export default function HomeSpotApp() {
     {(section === "search" || section === "map") && resultsView()}
     {section === "favorites" && favoritesView()}
     {section === "messages" && <EmptyState type="messages" onAction={() => setSection("search")} />}
+    {section === "rentals" && <RentalDashboard />}
     {section === "movers" && <MoversDashboard />}
     {section === "provider" && <ProviderDashboard />}
     {section === "admin" && <AdminDashboard />}
-    {section === "profile" && <div className="grid gap-6 lg:grid-cols-[1fr_340px]"><AuthPanel /><aside className="rounded-[1.7rem] border border-[#dce7e3] bg-white p-5"><h2 className="font-bold text-[#173f3b]">Choose your workspace</h2><p className="mt-1 text-xs leading-5 text-[#71817d]">One person can hold multiple approved roles.</p><div className="mt-4 space-y-2">{[{ id: "provider", label: "Property provider", icon: Building2 }, { id: "movers", label: "Mover portal", icon: MessageCircle }, { id: "admin", label: "Admin preview", icon: UserRound }].map(({ id, label, icon: Icon }) => <button key={id} onClick={() => setSection(id as AppSection)} className="flex w-full items-center gap-3 rounded-xl border border-[#e0e9e5] p-3 text-left text-sm font-bold text-[#47635d] hover:bg-[#f5f8f7]"><Icon className="h-5 w-5 text-[#0f766e]" />{label}<ArrowRight className="ml-auto h-4 w-4" /></button>)}</div><div className="mt-5 flex items-start gap-2 rounded-xl bg-[#f8f4e9] p-3 text-xs leading-5 text-[#725f45]"><Bell className="mt-0.5 h-4 w-4 shrink-0" />Role access will be enforced by database-backed authorization, not by this selector.</div></aside></div>}
+    {section === "profile" && <div className="grid gap-6 lg:grid-cols-[1fr_340px]"><AuthPanel /><aside className="rounded-[1.7rem] border border-[#dce7e3] bg-white p-5"><h2 className="font-bold text-[#173f3b]">Choose your workspace</h2><p className="mt-1 text-xs leading-5 text-[#71817d]">One person can hold multiple approved roles.</p><div className="mt-4 space-y-2">{[{ id: "rentals", label: "My rental & payments", icon: Home }, { id: "provider", label: "Property provider", icon: Building2 }, { id: "movers", label: "Mover portal", icon: MessageCircle }, { id: "admin", label: "Admin preview", icon: UserRound }].map(({ id, label, icon: Icon }) => <button key={id} onClick={() => setSection(id as AppSection)} className="flex w-full items-center gap-3 rounded-xl border border-[#e0e9e5] p-3 text-left text-sm font-bold text-[#47635d] hover:bg-[#f5f8f7]"><Icon className="h-5 w-5 text-[#0f766e]" />{label}<ArrowRight className="ml-auto h-4 w-4" /></button>)}</div><div className="mt-5 flex items-start gap-2 rounded-xl bg-[#f8f4e9] p-3 text-xs leading-5 text-[#725f45]"><Bell className="mt-0.5 h-4 w-4 shrink-0" />Role access will be enforced by database-backed authorization, not by this selector.</div></aside></div>}
     {selected && <PropertyDetail listing={selected} favorite={favorites.includes(selected.unit.id)} onFavorite={() => toggleFavorite(selected.unit.id)} onClose={() => setSelected(null)} />}
     {compareView()}<Toaster position="top-center" richColors />
   </AppShell>;

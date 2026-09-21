@@ -1,12 +1,12 @@
 "use client";
 
-import { Bell, Building2, Heart, Home, Map, Menu, MessageCircle, Search, ShieldCheck, Truck, UserRound } from "lucide-react";
+import { Bell, Building2, Heart, Home, Map, Menu, ReceiptText, Search, ShieldCheck, Truck, UserRound } from "lucide-react";
 import { Brand } from "@/components/brand";
 import type { AppSection } from "@/types/marketplace";
 import { cn } from "@/lib/utils";
 
 const mobileNav: { id: AppSection; label: string; icon: typeof Home }[] = [
-  { id: "home", label: "Home", icon: Home }, { id: "search", label: "Search", icon: Search }, { id: "map", label: "Map", icon: Map }, { id: "favorites", label: "Saved", icon: Heart }, { id: "messages", label: "Messages", icon: MessageCircle }, { id: "profile", label: "Profile", icon: UserRound },
+  { id: "home", label: "Home", icon: Home }, { id: "search", label: "Search", icon: Search }, { id: "map", label: "Map", icon: Map }, { id: "favorites", label: "Saved", icon: Heart }, { id: "rentals", label: "Rent", icon: ReceiptText }, { id: "profile", label: "Profile", icon: UserRound },
 ];
 
 export function AppShell({ active, onNavigate, children }: { active: AppSection; onNavigate: (section: AppSection) => void; children: React.ReactNode }) {

@@ -45,5 +45,5 @@ export interface Mover {
   verified: boolean;
 }
 
-export type AppSection = "home" | "search" | "map" | "favorites" | "messages" | "movers" | "provider" | "admin" | "profile";
+export type AppSection = "home" | "search" | "map" | "favorites" | "messages" | "rentals" | "movers" | "provider" | "admin" | "profile";
 export type ResultMode = "list" | "map" | "feed";
