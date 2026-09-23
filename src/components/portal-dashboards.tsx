@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { BadgeCheck, BarChart3, Building2, CalendarClock, CheckCircle2, ChevronRight, CircleDollarSign, Clock3, Home, MoreHorizontal, ShieldCheck, Truck, Users } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -14,12 +15,13 @@ const Metric = ({ label, value, icon: Icon, tone = "teal" }: { label: string; va
 );
 
 export function ProviderDashboard() {
+  const router = useRouter();
   const [statuses, setStatuses] = useState<Record<string, string>>({});
   return (
     <section>
       <div className="rounded-[1.8rem] bg-[#123b38] px-6 py-8 text-white sm:px-8">
         <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#8fd1c3]">Provider workspace</span>
-        <div className="mt-2 flex flex-wrap items-end justify-between gap-4"><div><h1 className="text-3xl font-bold tracking-[-0.04em]">Good morning, Wanjiku</h1><p className="mt-2 text-sm text-[#cfe3dd]">Your homes are getting attention. Two units need availability checks.</p></div><Button onClick={() => toast("Property setup is organized into 9 guided steps.")} className="rounded-xl bg-[#e18356] font-bold hover:bg-[#ca7048]">+ Add property</Button></div>
+        <div className="mt-2 flex flex-wrap items-end justify-between gap-4"><div><h1 className="text-3xl font-bold tracking-[-0.04em]">Good morning, Wanjiku</h1><p className="mt-2 text-sm text-[#cfe3dd]">Your homes are getting attention. Two units need availability checks.</p></div><Button onClick={() => router.push("/properties/new")} className="rounded-xl bg-[#e18356] font-bold hover:bg-[#ca7048]">+ Add property</Button></div>
       </div>
       <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4"><Metric label="Active properties" value="3" icon={Building2} /><Metric label="Available units" value="7" icon={Home} /><Metric label="Viewing requests" value="12" icon={CalendarClock} tone="sand" /><Metric label="Views this month" value="1.8k" icon={BarChart3} /></div>
       <div className="mt-6 overflow-hidden rounded-[1.6rem] border border-[#dfe8e5] bg-white">
