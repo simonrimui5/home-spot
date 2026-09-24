@@ -46,7 +46,9 @@ export function MoversDashboard() {
     const loadMovers = async () => {
       const { data, error } = await supabase
         .from("movers")
-        .select("*")
+        .select(
+          "user_id, business_name, bio, verification_status, verified_at, created_at"
+        )
         .order("created_at", { ascending: false });
 
       if (error) {
@@ -59,15 +61,152 @@ export function MoversDashboard() {
       setLoadingMovers(false);
     };
 
-        loadMovers();
+    loadMovers();
   }, []);
 
   return (
     <section>
-      <div className="flex flex-wrap items-end justify-between gap-4"><div><span className="text-xs font-bold uppercase tracking-[0.16em] text-[#0f766e]">Move with confidence</span><h1 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-[#173f3b]">From this home to the next.</h1><p className="mt-2 max-w-xl text-sm leading-6 text-[#687b76]">Tell verified movers what you need once, then compare clear quotes in one place.</p></div><Truck className="h-14 w-14 text-[#e18356]" /></div>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#0f766e]">
+            Move with confidence
+          </span>
+
+          <h1 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-[#173f3b]">
+            From this home to the next.
+          </h1>
+
+          <p className="mt-2 max-w-xl text-sm leading-6 text-[#687b76]">
+            Tell verified movers what you need once, then compare clear quotes
+            in one place.
+          </p>
+        </div>
+
+        <Truck className="h-14 w-14 text-[#e18356]" />
+      </div>
+
       <div className="mt-6 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <form onSubmit={(event) => { event.preventDefault(); toast.success("Moving request prepared", { description: "Create an account to receive verified quotes." }); }} className="rounded-[1.6rem] bg-[#123b38] p-5 text-white sm:p-6"><h2 className="text-xl font-bold">Plan your move</h2><div className="mt-5 grid gap-3 sm:grid-cols-2"><input required placeholder="Current neighborhood" className="h-12 rounded-xl bg-white/10 px-4 text-sm outline-none ring-1 ring-white/20 placeholder:text-[#bad1cb]" /><input required placeholder="New neighborhood" className="h-12 rounded-xl bg-white/10 px-4 text-sm outline-none ring-1 ring-white/20 placeholder:text-[#bad1cb]" /><input required type="date" className="h-12 rounded-xl bg-white/10 px-4 text-sm outline-none ring-1 ring-white/20" /><select className="h-12 rounded-xl bg-[#234d49] px-4 text-sm outline-none ring-1 ring-white/20"><option>Bedsitter</option><option>1 Bedroom</option><option>2 Bedroom</option><option>3+ Bedroom</option></select><input placeholder="Floor & lift details" className="h-12 rounded-xl bg-white/10 px-4 text-sm outline-none ring-1 ring-white/20 placeholder:text-[#bad1cb] sm:col-span-2" /><textarea placeholder="Large items or packing needs" className="min-h-24 rounded-xl bg-white/10 p-4 text-sm outline-none ring-1 ring-white/20 placeholder:text-[#bad1cb] sm:col-span-2" /></div><Button className="mt-4 h-12 w-full rounded-xl bg-[#e18356] font-bold hover:bg-[#ca7048]">Request quotes</Button></form>
-        <div className="space-y-3">{Movers.map((mover) => <article key={mover.id} className="rounded-[1.4rem] border border-[#dfe8e5] bg-white p-5"><div className="flex items-start justify-between"><div className="flex gap-3"><div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#e7f3ef] text-[#0f766e]"><Truck className="h-6 w-6" /></div><div><h3 className="font-bold text-[#173f3b]">{mover.name}</h3><p className="mt-1 flex items-center gap-1 text-xs text-[#667b76]"><BadgeCheck className="h-4 w-4 text-[#0f766e]" />Verified · ★ {mover.rating}</p></div></div><MoreHorizontal className="text-[#71817d]" /></div><div className="mt-4 grid grid-cols-2 gap-3 text-xs"><div className="rounded-xl bg-[#f4f7f5] p-3"><span className="text-[#71817d]">Vehicle</span><b className="mt-1 block text-[#173f3b]">{mover.vehicle}</b></div><div className="rounded-xl bg-[#f4f7f5] p-3"><span className="text-[#71817d]">Estimate</span><b className="mt-1 block text-[#173f3b]">{mover.estimate}</b></div></div></article>)}</div>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            toast.success("Moving request prepared", {
+              description: "Your moving request will be used to receive quotes.",
+            });
+          }}
+          className="rounded-[1.6rem] bg-[#123b38] p-5 text-white sm:p-6"
+        >
+          <h2 className="text-xl font-bold">Plan your move</h2>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <input
+              required
+              placeholder="Current neighborhood"
+              className="h-12 rounded-xl bg-white/10 px-4 text-sm outline-none ring-1 ring-white/20 placeholder:text-[#bad1cb]"
+            />
+
+            <input
+              required
+              placeholder="New neighborhood"
+              className="h-12 rounded-xl bg-white/10 px-4 text-sm outline-none ring-1 ring-white/20 placeholder:text-[#bad1cb]"
+            />
+
+            <input
+              required
+              type="date"
+              className="h-12 rounded-xl bg-white/10 px-4 text-sm outline-none ring-1 ring-white/20"
+            />
+
+            <select
+              className="h-12 rounded-xl bg-[#234d49] px-4 text-sm outline-none ring-1 ring-white/20"
+            >
+              <option>Bedsitter</option>
+              <option>1 Bedroom</option>
+              <option>2 Bedroom</option>
+              <option>3+ Bedroom</option>
+            </select>
+
+            <input
+              placeholder="Floor & lift details"
+              className="h-12 rounded-xl bg-white/10 px-4 text-sm outline-none ring-1 ring-white/20 placeholder:text-[#bad1cb] sm:col-span-2"
+            />
+
+            <textarea
+              placeholder="Large items or packing needs"
+              className="min-h-24 rounded-xl bg-white/10 p-4 text-sm outline-none ring-1 ring-white/20 placeholder:text-[#bad1cb] sm:col-span-2"
+            />
+          </div>
+
+          <Button className="mt-4 h-12 w-full rounded-xl bg-[#e18356] font-bold hover:bg-[#ca7048]">
+            Request quotes
+          </Button>
+        </form>
+
+        <div className="space-y-3">
+          {loadingMovers ? (
+            <div className="rounded-[1.4rem] border border-[#dfe8e5] bg-white p-5 text-sm text-[#71817d]">
+              Loading movers...
+            </div>
+          ) : movers.length === 0 ? (
+            <div className="rounded-[1.4rem] border border-[#dfe8e5] bg-white p-5">
+              <h3 className="font-bold text-[#173f3b]">
+                No movers available yet
+              </h3>
+
+              <p className="mt-1 text-sm text-[#71817d]">
+                Movers will appear here once they join HomeSpot.
+              </p>
+            </div>
+          ) : (
+            movers.map((mover) => (
+              <article
+                key={mover.user_id}
+                className="rounded-[1.4rem] border border-[#dfe8e5] bg-white p-5"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex gap-3">
+                    <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#e7f3ef] text-[#0f766e]">
+                      <Truck className="h-6 w-6" />
+                    </div>
+
+                    <div>
+                      <h3 className="font-bold text-[#173f3b]">
+                        {mover.business_name || "HomeSpot Mover"}
+                      </h3>
+
+                      <p className="mt-1 flex items-center gap-1 text-xs text-[#667b76]">
+                        {mover.verification_status === "verified" ? (
+                          <>
+                            <BadgeCheck className="h-4 w-4 text-[#0f766e]" />
+                            Verified mover
+                          </>
+                        ) : (
+                          <>
+                            <BadgeCheck className="h-4 w-4 text-[#71817d]" />
+                            Verification pending
+                          </>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+
+                  <MoreHorizontal className="text-[#71817d]" />
+                </div>
+
+                <p className="mt-4 text-sm leading-6 text-[#667b76]">
+                  {mover.bio || "Professional moving services through HomeSpot."}
+                </p>
+
+                <div className="mt-4 rounded-xl bg-[#f4f7f5] p-3 text-xs">
+                  <span className="text-[#71817d]">Moving price</span>
+
+                  <b className="mt-1 block text-[#173f3b]">
+                    Request a quote
+                  </b>
+                </div>
+              </article>
+            ))
+          )}
+        </div>
       </div>
     </section>
   );
