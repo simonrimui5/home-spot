@@ -84,7 +84,7 @@ export function MoversDashboard() {
 
 <Button
   type="button"
-  onClick={() => toast("Mover onboarding is coming next.")}
+  onClick={() => window.location.href = "/movers/join"}
   variant="outline"
   className="h-11 rounded-xl border-[#cbdcd7] bg-white font-bold text-[#173f3b]"
 >
