@@ -68,19 +68,29 @@ export function MoversDashboard() {
     <section>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#0f766e]">
-            Move with confidence
-          </span>
+  <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#0f766e]">
+    Move with confidence
+  </span>
 
-          <h1 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-[#173f3b]">
-            From this home to the next.
-          </h1>
+  <h1 className="mt-2 text-3xl font-bold tracking-[-0.04em] text-[#173f3b]">
+    From this home to the next.
+  </h1>
 
-          <p className="mt-2 max-w-xl text-sm leading-6 text-[#687b76]">
-            Tell verified movers what you need once, then compare clear quotes
-            in one place.
-          </p>
-        </div>
+  <p className="mt-2 max-w-xl text-sm leading-6 text-[#687b76]">
+    Tell verified movers what you need once, then compare clear quotes
+    in one place.
+  </p>
+</div>
+
+<Button
+  type="button"
+  onClick={() => toast("Mover onboarding is coming next.")}
+  variant="outline"
+  className="h-11 rounded-xl border-[#cbdcd7] bg-white font-bold text-[#173f3b]"
+>
+  <Truck className="mr-2 h-4 w-4 text-[#0f766e]" />
+  Join as a mover
+</Button>
 
         <Truck className="h-14 w-14 text-[#e18356]" />
       </div>
