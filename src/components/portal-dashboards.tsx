@@ -202,10 +202,65 @@ export function MoversDashboard() {
                   <MoreHorizontal className="text-[#71817d]" />
                 </div>
 
-                <p className="mt-4 text-sm leading-6 text-[#667b76]">
-                  {mover.bio || "Professional moving services through HomeSpot."}
-                </p>
+                <div className="mt-4 text-sm leading-6 text-[#667b76]">
+  {mover.bio ? (
+    mover.bio.split("\n").map((line: string, index: number) => {
+      const trimmed = line.trim();
 
+      if (!trimmed) {
+        return <div key={index} className="h-2" />;
+      }
+
+      // Markdown heading: ### Heading
+      if (trimmed.startsWith("### ")) {
+        return (
+          <h4
+            key={index}
+            className="mb-3 text-base font-bold text-[#173f3b]"
+          >
+            {trimmed.slice(4)}
+          </h4>
+        );
+      }
+
+      // Bullet points: -, *, or \*
+      if (
+        trimmed.startsWith("- ") ||
+        trimmed.startsWith("* ") ||
+        trimmed.startsWith("\\* ")
+      ) {
+        const bulletText = trimmed
+          .replace(/^(- |\* |\\\* )/, "")
+          .replace(/\*\*(.*?)\*\*/g, "$1");
+
+        return (
+          <div key={index} className="ml-4 mb-1 list-item">
+            {bulletText}
+          </div>
+        );
+      }
+
+      // Bold Markdown
+      const parts = trimmed.split(/(\*\*.*?\*\*)/g);
+
+      return (
+        <p key={index} className="mb-2">
+          {parts.map((part, partIndex) =>
+            part.startsWith("**") && part.endsWith("**") ? (
+              <strong key={partIndex} className="font-bold text-[#173f3b]">
+                {part.slice(2, -2)}
+              </strong>
+            ) : (
+              part
+            )
+          )}
+        </p>
+      );
+    })
+  ) : (
+    <p>Professional moving services through HomeSpot.</p>
+  )}
+</div>
                 <div className="mt-4 rounded-xl bg-[#f4f7f5] p-3 text-xs">
                   <span className="text-[#71817d]">Moving price</span>
 
